@@ -42,6 +42,8 @@ b.right = e;
 c.right = f;
 
 // start
+// độ sâu giá trị đầu tiên
+// use stack
 
 const depthFirstValues = async function (root) {
   if (root == 0) return [];
@@ -57,3 +59,51 @@ const depthFirstValues = async function (root) {
     }
   }
 };
+
+const DepthFirstValues = async function (root) {
+  if (root === null) return [];
+  const leftValues = DepthFirstValues(root.left); // [b,d,e]
+  const rightValues = DepthFirstValues(root.right); // [c,f]
+  return [root.value, ...leftValues, ...rightValues];
+};
+
+// bề rộng giá trị dầu tiên
+// user queue
+const breadthFirstValues = async (root) => {
+  if (root === null) return [];
+  const values = [];
+  const queue = [root];
+
+  while (queue.length > 0) {
+    const current = queue.shift();
+    values.push(current.value);
+    if (current.left !== null) queue.push(current.left);
+    if (current.right !== null) queue.push(current.right);
+  }
+  return values;
+};
+
+// cây bao gồm
+
+const treeIncludes = (root, target) => {
+  if (root === null) return false;
+  const queue = [root];
+  while (queue.length > 0) {
+    const current = queue.shift();
+    if (current.value === target) {
+      return true;
+    }
+    if (current.left) queue.push(current.left);
+    if (current.right) queue.push(current.right);
+  }
+  return false;
+};
+
+const TreeIncludes = (root, target) => {
+  if (root === null) return false;
+  if (root.value == target) return true;
+  return TreeIncludes(root.left, target) || TreeIncludes(root.right, target);
+};
+
+
+// tree sum
